@@ -10,12 +10,12 @@ class PyaudioMicrophone(MicrophoneProxy):
     MAX_ADJUST_SEC = 1
 
     def __init__(self):
-        self.source = sr.Microphone()
-        self.speech_recognizer = sr.Recognizer
+        self.speech_recognizer = sr.Recognizer()
 
     def listen_for_snippet(self):
-        print("Say something!")
-        self.speech_recognizer.pause_threshold = PAUSE_THRESHOLD_SEC
-        self.speech_recognizer.adjust_for_ambient_noise(self.source, duration=MAX_ADJUST_SEC) 
-        audio = self.speech_recognizer.listen(self.source)
-        return audio
+        with sr.Microphone() as source:
+            print("Say something!")
+            self.speech_recognizer.pause_threshold = self.PAUSE_THRESHOLD_SEC
+            self.speech_recognizer.adjust_for_ambient_noise(source, duration=self.MAX_ADJUST_SEC) 
+            audio = self.speech_recognizer.listen(source)
+            return audio

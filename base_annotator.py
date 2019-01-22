@@ -5,7 +5,7 @@ from tornado.web import RequestHandler
 class Annotator(RequestHandler):
     SUPPORTED_METHODS = ("POST",)
 
-    def __init__(self):
+    def initialize(self):
         self.annotation_types = []
         self._annotations = []
 
@@ -21,7 +21,7 @@ class Annotator(RequestHandler):
     def _annotation_to_dict(self, annotations):
         annot_map = {c : [] for c in self.annotation_types}
         for x in annotations:
-            class_name = x.name()
+            class_name = x.get_name()
             annot_map[class_name].append(dict(x))
         return annot_map
 
@@ -41,5 +41,8 @@ class AnnotationType:
     def __init__(self):
         self.name = "NO NAME PROVIDED"
 
-    def name(self):
+    def __iter__(self):
+        return self.__dict__.items().__iter__()
+
+    def get_name(self):
         return self.name
