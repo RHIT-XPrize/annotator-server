@@ -23,7 +23,8 @@ def find_in_str(target, string, start=0):
 class ColorAnnotator(Annotator):
     def initialize(self):
         super().initialize()
-        self.color_words = ['red', 'blue', 'yellow']
+        with open("color_dictionary.json", encoding='utf-8') as f:
+            self.color_words = json.load(f)
         self.annotation_types.append(Color.ANNOTATION_UIMA_TYPE_NAME)
 
     def process(self, cas):
