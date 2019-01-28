@@ -24,13 +24,14 @@ class ColorAnnotator(Annotator):
     def initialize(self):
         super().initialize()
         with open("color_dictionary.json", encoding='utf-8') as f:
-            self.color_words = json.load(f)
+            self.color_dict = json.load(f)
         self.annotation_types.append(Color.ANNOTATION_UIMA_TYPE_NAME)
 
     def process(self, cas):
-        sofa_string = cas['_referenced_fss']['1']['sofaString']
+        sofa_string = cas['_views']['_InitialView']['SpokenText'][0]['text']
+        blocks = cas['_views']['_InitialView']['DetectedBlock']
         to_analyze = sofa_string
-        for word in self.color_words:
+        for word in self.color_dict.keys:
             anns = find_in_str(word, to_analyze)
             for a in anns:
                 print(a)
