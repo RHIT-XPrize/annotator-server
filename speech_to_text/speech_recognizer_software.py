@@ -13,10 +13,10 @@ class GoogleCloudSpeechConverter(SpeechConverter):
 
     def process_sr_audio(self, audio_snippet):
         credentials = open(self.SECRETS_PATH).read()
-        processed_text = self.speech_recognizer.recognize_google_cloud(audio_snippet, credentials_json=credentials)
 
         # Log errors to console if they occur
         try:
+            processed_text = self.speech_recognizer.recognize_google_cloud(audio_snippet, credentials_json=credentials)
             print("Google Cloud Speech thinks you said " + processed_text)
             return processed_text
         except sr.UnknownValueError:

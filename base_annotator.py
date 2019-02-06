@@ -42,7 +42,9 @@ class AnnotationType:
         self.name = "NO NAME PROVIDED"
 
     def __iter__(self):
-        return self.__dict__.items().__iter__()
+        fields = self.__dict__
+        fields.pop('name')
+        return fields.items().__iter__()
 
     def get_name(self):
         return self.name

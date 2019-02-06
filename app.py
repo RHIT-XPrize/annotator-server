@@ -15,7 +15,7 @@ def main():
     speech_converter = GoogleCloudSpeechConverter()
 
     app = Application(handlers= [
-        ('/', SpeechToTextAnnotator,
+        ('/Speech', SpeechToTextAnnotator,
             {"audio_source": audio_source,
              "speech_processor": speech_converter}),
         ('/color', ColorAnnotator)
