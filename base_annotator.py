@@ -12,7 +12,7 @@ class Annotator(RequestHandler):
     def post(self):
         cas = json.loads(self.request.body)
         self.process(cas)
-        resp = json.dumps(self._annotation_to_dict(self._annotations))
+        resp = self._annotation_to_dict(self._annotations)
         self.send_response(resp)
 
     def process(self, cas):

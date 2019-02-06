@@ -5,6 +5,7 @@ from tornado.web import Application
 from speech_to_text.speech_to_text_annotator import SpeechToTextAnnotator
 from speech_to_text.microphone_access import PyaudioMicrophone
 from speech_to_text.speech_recognizer_software import GoogleCloudSpeechConverter
+from text_processing.color_annotator import ColorAnnotator
 
 define('port', default=3000, help='port to listen on')
 
@@ -14,9 +15,10 @@ def main():
     speech_converter = GoogleCloudSpeechConverter()
 
     app = Application(handlers= [
-        ('/', SpeechToTextAnnotator, 
-            {"audio_source": audio_source, 
-             "speech_processor": speech_converter})
+        ('/', SpeechToTextAnnotator,
+            {"audio_source": audio_source,
+             "speech_processor": speech_converter}),
+        ('/color', ColorAnnotator)
     ])
     http_server = HTTPServer(app)
     http_server.listen(options.port)
