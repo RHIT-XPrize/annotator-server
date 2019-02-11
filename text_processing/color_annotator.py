@@ -30,14 +30,11 @@ class TextProcessingAnnotator(Annotator):
        
         to_analyze = sofa_string
         all_colors_in_text = []
-        for word in self.color_dict.keys:
+        for word in self.color_dict.keys():
             if is_word_in_str(word, to_analyze):
                 all_colors_in_text.append(word)
 
-        for color in all_colors_in_text:
-            print(color)
-
-        if len(color_to_find) == 0:
+        if len(all_colors_in_text) == 0:
             print("Did not find color in spoken text, cannot determine confidence rating based on text.")
             return
         
@@ -49,7 +46,7 @@ class TextProcessingAnnotator(Annotator):
             blue_hue = block['b_hue']
 
             block_rgb = [red_hue, green_hue, blue_hue]
-            analyzed_color_rgb = self.color_dict(color_to_find)
+            analyzed_color_rgb = self.color_dict[color_to_find]
             confidence = deltaE(block_rgb, analyzed_color_rgb)
             
             annotation = TextConfidenceAnnotation(block_id, confidence)
