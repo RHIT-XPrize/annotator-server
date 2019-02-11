@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import speech_recognition as sr
+import traceback
 
 class SpeechConverter():
     def process_sr_audio(self, audio_snippet):
@@ -21,11 +22,11 @@ class GoogleCloudSpeechConverter(SpeechConverter):
             return processed_text
         except sr.UnknownValueError:
             print("Google Cloud Speech could not understand audio")
-            print(sr.UnknownValueError)
+            traceback.print_exc()
             return ""
         except sr.RequestError as e:
             print("Could not request results from Google Cloud Speech service; {0}".format(e))
-            print(sr.RequestError)
+            traceback.print_exc()
             return ""
         
 
