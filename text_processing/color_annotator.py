@@ -47,7 +47,8 @@ class TextProcessingAnnotator(Annotator):
 
             block_rgb = [red_hue, green_hue, blue_hue]
             analyzed_color_rgb = self.color_dict[color_to_find]
-            confidence = deltaE(block_rgb, analyzed_color_rgb)
-            
+            deltaValue = deltaE(block_rgb, analyzed_color_rgb)
+            confidence = 1 / deltaValue if deltaValue != 0 else 0
+
             annotation = TextConfidenceAnnotation(block_id, confidence)
             self.add_annotation(annotation)
