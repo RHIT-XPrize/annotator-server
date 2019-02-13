@@ -7,7 +7,7 @@ class DummyTextAnnotator(Annotator):
         self.annotation_types.append(TextAnnotation.ANNOTATION_UIMA_TYPE_NAME)
 
     def process(self, cass):
-        text = "move the blue block"
+        text = "move the green block"
         annotation = TextAnnotation(text)
         self.add_annotation(annotation)
 

@@ -45,10 +45,22 @@ class TextProcessingAnnotator(Annotator):
             green_hue = block['g_hue']
             blue_hue = block['b_hue']
 
+
             block_rgb = [red_hue, green_hue, blue_hue]
+            # Scale rgb to put values in 0-255 range (adjusts for lighting)
+            max_hue_value = max(block_rgb)
+            scaled_rgb = [hue / max_hue_value * 255 for hue in block_rgb]
+        
             analyzed_color_rgb = self.color_dict[color_to_find]
-            deltaValue = deltaE(block_rgb, analyzed_color_rgb)
+            deltaValue = self.rgb_dist(scaled_rgb, analyzed_color_rgb)
             confidence = 1 / deltaValue if deltaValue != 0 else 0
 
             annotation = TextConfidenceAnnotation(block_id, confidence)
             self.add_annotation(annotation)
+    
+    def rgb_dist(self, rgb1, rgb2):
+        red_dist = (rgb1[0] - rgb2[0]) ** 2
+        green_dist = (rgb1[1] - rgb2[1]) ** 2
+        blue_dist = (rgb1[2] - rgb2[2]) ** 2
+
+        return (red_dist + green_dist + blue_dist) ** 0.5
