@@ -9,6 +9,7 @@ from speech_to_text.microphone_access import PyaudioMicrophone
 from speech_to_text.speech_recognizer_software import GoogleCloudSpeechConverter
 from text_processing.color_annotator import TextProcessingAnnotator
 from confidence_aggregation.aggregate_confidence_annotator import AggregateConfidenceAnnotator
+from sawyer_demo.sample_robot_annotator import SampleRobotAnnotator
 
 define('port', default=3000, help='port to listen on')
 
