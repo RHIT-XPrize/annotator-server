@@ -15,9 +15,9 @@ class PyaudioMicrophone(MicrophoneProxy):
     def listen_for_snippet(self):
         with sr.Microphone() as source:
             print()
-            print("Adjusting for ambient noise...")
+            print("Hello! I am adjusting for ambient noise, please wait...")
             self.speech_recognizer.pause_threshold = self.PAUSE_THRESHOLD_SEC
             self.speech_recognizer.adjust_for_ambient_noise(source, duration=self.MAX_ADJUST_SEC) 
-            print("Give your command to the system!")
+            print("Please tell me your command!")
             audio = self.speech_recognizer.listen(source)
             return audio

@@ -34,7 +34,7 @@ class AggregateConfidenceAnnotator(Annotator):
             normalized_text_conf = normalized_text_confidences[block_id]
 
             output_conf = normalized_pointing_conf * normalized_text_conf
-            annotation = AggregateConfidenceAnnotation(block_id, output_conf)
+            annotation = AggregateConfidenceAnnotation(block_id, output_conf, normalized_pointing_conf, normalized_text_conf)
             self.add_annotation(annotation)
 
     def normalize_data(self, data_to_normalize, data_bounds):
@@ -51,7 +51,9 @@ class AggregateConfidenceAnnotator(Annotator):
 class AggregateConfidenceAnnotation(AnnotationType):
     ANNOTATION_UIMA_TYPE_NAME = "edu.rosehulman.aixprize.pipeline.types.AggregateConfidence"
     
-    def __init__(self, id, confidence):
+    def __init__(self, id, confidence, normalized_pointing_conf, normalized_text_conf):
         self.name = self.ANNOTATION_UIMA_TYPE_NAME
         self.id = id
         self.confidence = confidence
+        self.normPointingConf = normalized_pointing_conf
+        self.normTextConf = normalized_text_conf

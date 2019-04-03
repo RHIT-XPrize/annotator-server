@@ -18,14 +18,14 @@ class GoogleCloudSpeechConverter(SpeechConverter):
         # Log errors to console if they occur
         try:
             processed_text = self.speech_recognizer.recognize_google_cloud(audio_snippet, credentials_json=credentials)
-            print("Google Cloud Speech thinks you said " + processed_text)
+            print("I think you said: " + processed_text)
             return processed_text
         except sr.UnknownValueError:
-            print("Google Cloud Speech could not understand audio")
+            print("My friend Google Cloud Speech could not understand audio")
             traceback.print_exc()
             return ""
         except sr.RequestError as e:
-            print("Could not request results from Google Cloud Speech service; {0}".format(e))
+            print("Could not request results from my friend, Google Cloud Speech service; {0}".format(e))
             traceback.print_exc()
             return ""
         
