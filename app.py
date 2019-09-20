@@ -17,6 +17,7 @@ def main():
     audio_source = PyaudioMicrophone()
     speech_converter = GoogleCloudSpeechConverter()
 
+    print("starting py server")
     app = Application(handlers= [
         ('/Speech', SpeechToTextAnnotator,
             {"audio_source": audio_source,

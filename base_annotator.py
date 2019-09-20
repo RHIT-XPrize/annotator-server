@@ -10,7 +10,12 @@ class Annotator(RequestHandler):
         self._annotations = []
 
     def post(self):
-        cas = json.loads(self.request.body)
+        print(self.request.body)
+        print("------")
+        str_response = self.request.body.decode('utf-8')
+        print(json.loads(str_response))
+        print("-------")
+        cas = json.loads(str_response)
         self.process(cas)
         resp = self._annotation_to_dict(self._annotations)
         self.send_response(resp)
