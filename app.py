@@ -9,6 +9,7 @@ from speech_to_text.microphone_access import PyaudioMicrophone
 from speech_to_text.speech_recognizer_software import GoogleCloudSpeechConverter
 from text_processing.color_annotator import TextProcessingAnnotator
 from confidence_aggregation.aggregate_confidence_annotator import AggregateConfidenceAnnotator
+from feedback.feedback_annotator import FeedbackAnnotator
 
 define('port', default=3000, help='port to listen on')
 
@@ -24,7 +25,8 @@ def main():
              "speech_processor": speech_converter}),
         ('/TextWithoutSpeech', DummyTextAnnotator),
         ('/TextProcessing', TextProcessingAnnotator),
-        ('/AggregateConfidence', AggregateConfidenceAnnotator)
+        ('/AggregateConfidence', AggregateConfidenceAnnotator),
+        ('/Feedback', FeedbackAnnotator)
     ])
     http_server = HTTPServer(app)
     http_server.listen(options.port)
