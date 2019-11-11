@@ -10,15 +10,19 @@ class AggregateConfidenceAnnotator(Annotator):
         self.annotation_types.append(AggregateConfidenceAnnotation.ANNOTATION_UIMA_TYPE_NAME)
 
     def process(self, cas):
-#         all_pointing_confidences = cas['_views']['_InitialView']['Pointing']
+        all_pointing_confidences = cas['_views']['_InitialView']['Pointing']
 #         all_text_confidences = cas['_views']['_InitialView']['TextConfidence']
+#---------------------
         print("Begining of Aggregate")
         spatial_relationship_conf = cas['_views']['_InitialView']['MetadataSelectedBlock'][0]['confidenceValue']
         print('CONFIDENCE:')
         print(spatial_relationship_conf)
         annotation = AggregateConfidenceAnnotation(cas['_views']['_InitialView']['MetadataSelectedBlock'][0]['id'], spatial_relationship_conf, 1, 1)
         self.add_annotation(annotation)
-        
+#--------Testing code-------------
+        annotation = AggregateConfidenceAnnotation(1, 1, 1, 1)
+        self.add_annotation(annotation)
+#------------------------         
 #         uses_actual_block_color = cas['_views']['_InitialView']['UsesActualBlockColor']
 #         uses_gesture = cas['_views']['_InitialView']['UsesGesture']
 #         uses_spatial_mods = cas['_views']['_InitialView']['UsesSpatialMods']
@@ -26,26 +30,25 @@ class AggregateConfidenceAnnotator(Annotator):
 #         if len(all_pointing_confidences) != len(all_text_confidences):
 #             print("Did not process the same number of blocks for each line of processing. Please try again!")
 # 
-#         pointing_confidences = dict()
+        pointing_confidences = dict()
 #         text_confidences = dict()
-#         for id in range(0, len(all_pointing_confidences)):
-#             block_id = all_pointing_confidences[id]['id']
-#             pointing_conf = all_pointing_confidences[id]['confidence']
-#             pointing_confidences[block_id] = pointing_conf
+        for id in range(0, len(all_pointing_confidences)):
+            block_id = all_pointing_confidences[id]['id']
+            pointing_conf = all_pointing_confidences[id]['confidence']
+            pointing_confidences[block_id] = pointing_conf
 # 
 #             text_conf = all_text_confidences[id]['confidence']
 #             text_confidences[block_id] = text_conf
 # 
-#         normalized_pointing_confidences = self.normalize_data(pointing_confidences, self.POINTING_CONFIDENCE_BOUNDS)
+        normalized_pointing_confidences = self.normalize_data(pointing_confidences, self.POINTING_CONFIDENCE_BOUNDS)
 #         normalized_text_confidences = self.normalize_data(text_confidences, self.TEXT_CONFIDENCE_BOUNDS)
 # 
-#         for block_id in normalized_pointing_confidences:
-#             normalized_pointing_conf = normalized_pointing_confidences[block_id]
+        for block_id in normalized_pointing_confidences:
+            normalized_pointing_conf = normalized_pointing_confidences[block_id]
 #             normalized_text_conf = normalized_text_confidences[block_id]
-#             
 #             output_conf = (normalized_pointing_conf if usesGesture else 1) * (normalized_text_conf if uses_actual_block_color else 1) * (spatial_relationship_conf if uses_spatial_mods else 1)
-#             annotation = AggregateConfidenceAnnotation(block_id, output_conf, normalized_pointing_conf, normalized_text_conf)
-#             self.add_annotation(annotation)
+            annotation = AggregateConfidenceAnnotation(block_id, normalized_pointing_conf * spatial_relationship_conf, normalized_pointing_conf, 1)
+            self.add_annotation(annotation)
 
     def normalize_data(self, data_to_normalize, data_bounds):
         min_value = data_bounds[0]
