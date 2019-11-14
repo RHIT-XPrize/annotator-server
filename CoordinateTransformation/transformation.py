@@ -4,9 +4,11 @@ import json
 from base_annotator import Annotator, AnnotationType
 
 class CoordinateTransformationAnnotator(Annotator):
-    heightFromTable = 0.5
-    distanceRightOfRobot = 1
+    heightFromTable = 0.39
+    distanceRightOfRobot = 0.57
+    distanceInFrontOfRobot = 0.95
     angleOfKinect = 30
+    verticalRotationAngle = 180;
         
     def initialize(self):
         super().initialize()
@@ -19,13 +21,15 @@ class CoordinateTransformationAnnotator(Annotator):
         
         coords = KinectCoords(x,y,z)
         coords = self.rotateCoordSystemAroundHorizontalAxis(coords, self.angleOfKinect)
-        coords = self.translateCoordSystemHorizontally(coords, self.distanceRightOfRobot * -1)
-        coords = self.translateCoordSystemVertically(coords, self.heightFromTable)
+        coords = self.rotateCoordSystemAroundVerticalAxis(coords, self.verticalRotationAngle)
+        coords = self.translateCoordSystemHorizontallyX(coords, self.distanceRightOfRobot * -1)
+        coords = self.translateCoordSystemHorizontallyZ(coords, self.distanceInFrontOfRobot)
+        coords = self.translateCoordSystemVerticallyY(coords, self.heightFromTable)
         
 #         print('robot X: ', coords.x)
 #         print('robot Y: ', coords.z)
 #         print('robot Z: ', coords.y)
-        annotation = CoordinateTransformationAnnotation(coords.x, coords.z, coords.y)
+        annotation = CoordinateTransformationAnnotation(coords.z, coords.x, coords.y)
         self.add_annotation(annotation)
         
     def rotateCoordSystemAroundHorizontalAxis(self, kinectCoords, angle):
@@ -46,11 +50,33 @@ class CoordinateTransformationAnnotator(Annotator):
         kinectCoords.z = resultMatrix[2][0]
         return kinectCoords
     
-    def translateCoordSystemHorizontally(self, kinectCoords, xTransDist):
+    def rotateCoordSystemAroundVerticalAxis(self, kinectCoords, angle):
+        angleInRadians = math.radians(angle)
+        rotMatrix = numpy.array([[math.cos(angleInRadians),0, math.sin(angleInRadians),0],
+                     [0,1,0,0],
+                     [-1*math.sin(angleInRadians),0,math.cos(angleInRadians),0],
+                     [0,0,0,1]])
+        coordMatrix = numpy.array([[kinectCoords.x], 
+                       [kinectCoords.y], 
+                       [kinectCoords.z], 
+                       [1]])
+        resultMatrix = numpy.matmul(rotMatrix, coordMatrix)
+        
+        
+        kinectCoords.x = resultMatrix[0][0]
+        kinectCoords.y = resultMatrix[1][0]
+        kinectCoords.z = resultMatrix[2][0]
+        return kinectCoords
+    
+    def translateCoordSystemHorizontallyX(self, kinectCoords, xTransDist):
         kinectCoords.x = kinectCoords.x + xTransDist
         return kinectCoords
     
-    def translateCoordSystemVertically(self, kinectCoords, height):
+    def translateCoordSystemHorizontallyZ(self, kinectCoords, zTransDist):
+        kinectCoords.z = kinectCoords.z + zTransDist
+        return kinectCoords
+    
+    def translateCoordSystemVerticallyY(self, kinectCoords, height):
         kinectCoords.y = kinectCoords.y + height
         return kinectCoords
 
