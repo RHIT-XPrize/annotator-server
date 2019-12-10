@@ -7,7 +7,7 @@ from speech_to_text.dummy_text_annotator import DummyTextAnnotator
 from speech_to_text.speech_to_text_annotator import SpeechToTextAnnotator
 from speech_to_text.microphone_access import PyaudioMicrophone
 from speech_to_text.speech_recognizer_software import GoogleCloudSpeechConverter
-from text_processing.color_annotator import TextProcessingAnnotator
+from color_confidence.color_annotator import ColorConfidenceAnnotator
 from confidence_aggregation.aggregate_confidence_annotator import AggregateConfidenceAnnotator
 from feedback.feedback_annotator import FeedbackAnnotator
 from CoordinateTransformation.transformation import CoordinateTransformationAnnotator 
@@ -25,7 +25,7 @@ def main():
             {"audio_source": audio_source,
              "speech_processor": speech_converter}),
         ('/TextWithoutSpeech', DummyTextAnnotator),
-        ('/TextProcessing', TextProcessingAnnotator),
+        ('/ColorConfidence', ColorConfidenceAnnotator),
         ('/AggregateConfidence', AggregateConfidenceAnnotator),
         ('/Feedback', FeedbackAnnotator),
         ('/CoordTransformation', CoordinateTransformationAnnotator)

@@ -5,8 +5,8 @@ import json
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-class TextConfidenceAnnotation(AnnotationType):
-    ANNOTATION_UIMA_TYPE_NAME = "edu.rosehulman.aixprize.pipeline.types.TextConfidence"
+class ColorConfidenceAnnotation(AnnotationType):
+    ANNOTATION_UIMA_TYPE_NAME = "edu.rosehulman.aixprize.pipeline.types.ColorConfidence"
 
     def __init__(self, id, confidence):
         self.name = self.ANNOTATION_UIMA_TYPE_NAME
@@ -17,12 +17,12 @@ def is_word_in_str(target, string, start=0):
     idx = string.find(target)
     return idx >= 0
 
-class TextProcessingAnnotator(Annotator):
+class ColorConfidenceAnnotator(Annotator):
     def initialize(self):
         super().initialize()
-        with open("./text_processing/color_dictionary.json", encoding='utf-8') as f:
+        with open("./color_confidnece/color_dictionary.json", encoding='utf-8') as f:
             self.color_dict = json.load(f)
-        self.annotation_types.append(TextConfidenceAnnotation.ANNOTATION_UIMA_TYPE_NAME)
+        self.annotation_types.append(ColorConfidenceAnnotation.ANNOTATION_UIMA_TYPE_NAME)
 
     def process(self, cas):
         sofa_string = cas['_views']['_InitialView']['SpokenText'][0]['text']
@@ -55,7 +55,7 @@ class TextProcessingAnnotator(Annotator):
             deltaValue = deltaE(scaled_rgb, analyzed_color_rgb)
             confidence = 1 / deltaValue if deltaValue != 0 else 0
 
-            annotation = TextConfidenceAnnotation(block_id, confidence)
+            annotation = ColorConfidenceAnnotation(block_id, confidence)
             self.add_annotation(annotation)
     
     def rgb_dist(self, rgb1, rgb2):
