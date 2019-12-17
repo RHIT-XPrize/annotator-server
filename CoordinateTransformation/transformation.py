@@ -4,9 +4,9 @@ import json
 from base_annotator import Annotator, AnnotationType
 
 class CoordinateTransformationAnnotator(Annotator):
-    heightFromTable = 0.39
-    distanceRightOfRobot = 0.57
-    distanceInFrontOfRobot = 0.95
+    heightFromTable = 0.70
+    distanceRightOfRobot = -0.63
+    distanceInFrontOfRobot = -0.10
     angleOfKinect = 30
     verticalRotationAngle = 180;
         
@@ -21,7 +21,7 @@ class CoordinateTransformationAnnotator(Annotator):
         
         coords = KinectCoords(x,y,z)
         coords = self.rotateCoordSystemAroundHorizontalAxis(coords, self.angleOfKinect)
-        coords = self.rotateCoordSystemAroundVerticalAxis(coords, self.verticalRotationAngle)
+#         coords = self.rotateCoordSystemAroundVerticalAxis(coords, self.verticalRotationAngle)
         coords = self.translateCoordSystemHorizontallyX(coords, self.distanceRightOfRobot * -1)
         coords = self.translateCoordSystemHorizontallyZ(coords, self.distanceInFrontOfRobot)
         coords = self.translateCoordSystemVerticallyY(coords, self.heightFromTable)

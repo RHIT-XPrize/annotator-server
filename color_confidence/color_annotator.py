@@ -1,5 +1,5 @@
 from base_annotator import Annotator, AnnotationType
-from text_processing.rgb2lab import deltaE
+from color_confidence.rgb2lab import deltaE
 
 import json
 from tornado.ioloop import IOLoop
@@ -20,7 +20,7 @@ def is_word_in_str(target, string, start=0):
 class ColorConfidenceAnnotator(Annotator):
     def initialize(self):
         super().initialize()
-        with open("./color_confidnece/color_dictionary.json", encoding='utf-8') as f:
+        with open("./color_confidence/color_dictionary.json", encoding='utf-8') as f:
             self.color_dict = json.load(f)
         self.annotation_types.append(ColorConfidenceAnnotation.ANNOTATION_UIMA_TYPE_NAME)
 
