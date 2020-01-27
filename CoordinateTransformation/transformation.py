@@ -5,7 +5,7 @@ from base_annotator import Annotator, AnnotationType
 
 class CoordinateTransformationAnnotator(Annotator):
     heightFromTable = 0.70
-    distanceRightOfRobot = -0.63
+    distanceRightOfRobot = -0.61
     distanceInFrontOfRobot = -0.10
     angleOfKinect = 30
     verticalRotationAngle = 180;
