@@ -11,6 +11,7 @@ from color_confidence.color_annotator import ColorConfidenceAnnotator
 from confidence_aggregation.aggregate_confidence_annotator import AggregateConfidenceAnnotator
 from feedback.feedback_annotator import FeedbackAnnotator
 from CoordinateTransformation.transformation import CoordinateTransformationAnnotator 
+from hello_world.helloWorld import PythonHelloWorldAnnotator
 
 define('port', default=3000, help='port to listen on')
 
@@ -28,7 +29,8 @@ def main():
         ('/ColorConfidence', ColorConfidenceAnnotator),
         ('/AggregateConfidence', AggregateConfidenceAnnotator),
         ('/Feedback', FeedbackAnnotator),
-        ('/CoordTransformation', CoordinateTransformationAnnotator)
+        ('/CoordTransformation', CoordinateTransformationAnnotator),
+        ('/PythonHelloWorld', PythonHelloWorldAnnotator)
     ])
     http_server = HTTPServer(app)
     http_server.listen(options.port)
